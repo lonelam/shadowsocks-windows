@@ -14,6 +14,7 @@ namespace Shadowsocks.Controller.Strategy
             _strategies.Add(new BalancingStrategy(controller));
             _strategies.Add(new HighAvailabilityStrategy(controller));
             _strategies.Add(new StatisticsStrategy(controller));
+            _strategies.Add(new ExperientialStrategy(controller));
             // TODO: load DLL plugins
         }
         public IList<IStrategy> GetStrategies()

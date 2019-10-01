@@ -465,6 +465,10 @@ namespace Shadowsocks.View
             {
                 if (Configuration.ChecksServer(server))
                 {
+                    if (i - strategyCount > 20)
+                    {
+                        break;
+                    }
                     MenuItem item = new MenuItem(server.FriendlyName());
                     item.Tag = i - strategyCount;
                     item.Click += AServerItem_Click;
