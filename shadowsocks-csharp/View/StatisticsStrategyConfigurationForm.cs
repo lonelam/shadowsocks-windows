@@ -13,10 +13,22 @@ namespace Shadowsocks.View
 {
     public partial class StatisticsStrategyConfigurationForm : Form
     {
+        private class ServerTag
+        {
+            public string identifier = "Unkown";
+            public int latestLag = 0;
+            public string DisplayText
+            {
+                get
+                {
+                    return (latestLag != 0 ? $"[{latestLag}ms]" : "") + identifier;
+                }
+            }
+        }
         private readonly ShadowsocksController _controller;
         private StatisticsStrategyConfiguration _configuration;
         private readonly DataTable _dataTable = new DataTable();
-        private List<string> _servers;
+        private List<ServerTag> _servers;
         private readonly Series _speedSeries;
         private readonly Series _packageLossSeries;
         private readonly Series _pingSeries;
@@ -33,13 +45,34 @@ namespace Shadowsocks.View
             _controller.ConfigChanged += (sender, args) => LoadConfiguration();
             LoadConfiguration();
             Load += (sender, args) => InitData();
-
         }
 
         private void LoadConfiguration()
         {
             var configs = _controller.GetCurrentConfiguration().configs;
-            _servers = configs.Select(server => server.Identifier()).ToList();
+            var statictics = _controller?.availabilityStatistics?.RawStatistics;
+            List<StatisticsRecord> records;
+            _servers = configs.Select(server =>
+            {
+                statictics.TryGetValue(server.Identifier(), out records);
+                // select latest record
+                StatisticsRecord latest = null;
+                if (records != null)
+                {
+                    foreach (var record in records)
+                    {
+                        if (latest == null || record.Timestamp > latest.Timestamp)
+                        {
+                            latest = record;
+                        }
+                    }
+                }
+                return new ServerTag
+                {
+                    identifier = server.Identifier(),
+                    latestLag = (latest?.AverageLatency ?? latest?.AverageResponse) ?? 0
+                };
+            }).ToList();
             _configuration = _controller.StatisticsConfiguration
                              ?? new StatisticsStrategyConfiguration();
             if (_configuration.Calculations == null)
@@ -58,7 +91,7 @@ namespace Shadowsocks.View
             }
 
             serverSelector.DataSource = _servers;
-
+            serverSelector.DisplayMember = "DisplayText";
             _dataTable.Columns.Add("Timestamp", typeof(DateTime));
             _dataTable.Columns.Add("Speed", typeof (int));
             _speedSeries.XValueMember = "Timestamp";
@@ -99,9 +132,14 @@ namespace Shadowsocks.View
             _dataTable.Rows.Clear();
 
             //return directly when no data is usable
-            if (_controller.availabilityStatistics?.FilteredStatistics == null) return;
+            if (_controller.availabilityStatistics?.RawStatistics == null) return;
             List<StatisticsRecord> statistics;
-            if (!_controller.availabilityStatistics.FilteredStatistics.TryGetValue(serverName, out statistics)) return;
+            if (!_controller.availabilityStatistics.RawStatistics.TryGetValue(serverName.identifier, out statistics))
+            {
+                StatisticsChart.DataBind();
+                return;
+            }
+
             IEnumerable<IGrouping<int, StatisticsRecord>> dataGroups;
             if (allMode.Checked)
             {
