@@ -71,6 +71,8 @@ namespace Shadowsocks.Controller
         //tasks
         private readonly TimeSpan _delayBeforeStart = TimeSpan.FromSeconds(1);
         private readonly TimeSpan _retryInterval = TimeSpan.FromMinutes(2);
+        private bool forceRecord = false;
+        private AutoResetEvent recorded = new AutoResetEvent(false);
         private TimeSpan RecordingInterval => TimeSpan.FromMinutes(Config.DataCollectionMinutes);
         private Timer _perSecondTimer; //analyze and save cached records to RawStatistics and filter records
         private readonly TimeSpan _monitorInterval = TimeSpan.FromSeconds(1);
@@ -107,6 +109,7 @@ namespace Shadowsocks.Controller
                 else
                 {
                     _perSecondTimer?.Dispose();
+                    _perSecondTimer = null;
                 }
             }
             catch (Exception e)
@@ -125,8 +128,14 @@ namespace Shadowsocks.Controller
                     UpdateSpeed();
                 }
 
-                if (counter.count % RecordingInterval.TotalSeconds == 0)
+                if (counter.count % RecordingInterval.TotalSeconds == 0 || forceRecord)
                 {
+                    if (forceRecord)
+                    {
+                        forceRecord = false;
+                        recorded.Set();
+                    }
+
                     Run();
                 }
 
@@ -350,7 +359,8 @@ namespace Shadowsocks.Controller
 
         public void Dispose()
         {
-            _perSecondTimer.Dispose();
+            _perSecondTimer?.Dispose();
+            _perSecondTimer = null;
         }
 
         public void UpdateLatency(Server server, int latency)
@@ -525,5 +535,37 @@ namespace Shadowsocks.Controller
             }
         }
 
+        public Task DownloadTestAsync(ShadowsocksController controller, string targetUrl, TimeSpan timeout)
+        {
+            var proxy = new WebProxy($"http://localhost:{controller.GetCurrentConfiguration().localPort}");
+            int count = controller.GetCurrentConfiguration().configs.Count;
+            return Task.Factory.StartNew(() =>
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    controller.SelectServerIndex(i);
+                    Logging.Info($"start download test on {controller.GetCurrentServer().FriendlyName()}");
+                    var request = WebRequest.Create(targetUrl);
+                    request.Proxy = proxy;
+                    request.Timeout = (int)timeout.TotalMilliseconds;
+                    try
+                    {
+                        using (var stream = request.GetResponse().GetResponseStream())
+                        {
+                            var reader = new StreamReader(stream);
+                            reader.ReadToEnd();
+                        }
+                    }
+                    catch (WebException ex)
+                    {
+                        Logging.Info($"download test on {controller.GetCurrentServer().FriendlyName()} failed.{ex}");
+                    }
+
+                    recorded.Reset();
+                    forceRecord = true;
+                    recorded.WaitOne();
+                }
+            });
+        }
     }
 }

@@ -8,6 +8,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 using Shadowsocks.Controller;
 using Shadowsocks.Model;
 using Shadowsocks.Properties;
+using System.Threading.Tasks;
 
 namespace Shadowsocks.View
 {
@@ -108,6 +109,29 @@ namespace Shadowsocks.View
             StatisticsChart.DataSource = _dataTable;
             LoadChartData();
             StatisticsChart.DataBind();
+        }
+
+        private void TestButton_Click(object sender, EventArgs e)
+        {
+            TestButton.Text = I18N.GetString("Testing...");
+            TestButton.Enabled = false;
+            foreach (CalculationControl calculation in calculationContainer.Controls)
+            {
+                _configuration.Calculations[calculation.Value] = calculation.Factor;
+            }
+            StatisticsEnabledCheckBox.Checked = true;
+            _configuration.StatisticsEnabled = true;
+            _controller?.SaveStrategyConfigurations(_configuration);
+            _controller?.UpdateStatisticsConfiguration(StatisticsEnabledCheckBox.Checked);
+            _controller?.availabilityStatistics?.DownloadTestAsync(_controller, "https://github.com", TimeSpan.FromSeconds(5))
+                .ContinueWith(task =>
+                {
+                    TestButton.Text = I18N.GetString("Test");
+                    TestButton.Enabled = true;
+                    LoadConfiguration();
+                    serverSelector.DataSource = _servers;
+                },
+                TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         private void CancelButton_Click(object sender, EventArgs e)

@@ -29,13 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.StatisticsChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.PingCheckBox = new System.Windows.Forms.CheckBox();
+            this.bindingConfiguration = new System.Windows.Forms.BindingSource(this.components);
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.chartModeSelector = new System.Windows.Forms.GroupBox();
@@ -55,12 +56,13 @@
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.label1 = new System.Windows.Forms.Label();
             this.calculationContainer = new System.Windows.Forms.FlowLayoutPanel();
+            this.TestButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
             this.OKButton = new System.Windows.Forms.Button();
             this.serverSelector = new System.Windows.Forms.ListBox();
             this.CalculatinTip = new System.Windows.Forms.ToolTip(this.components);
-            this.bindingConfiguration = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.StatisticsChart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingConfiguration)).BeginInit();
             this.chartModeSelector.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer0)).BeginInit();
             this.splitContainer0.Panel1.SuspendLayout();
@@ -81,56 +83,55 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingConfiguration)).BeginInit();
             this.SuspendLayout();
             // 
             // StatisticsChart
             // 
             this.StatisticsChart.BackColor = System.Drawing.Color.Transparent;
-            chartArea2.AxisX.MajorGrid.Enabled = false;
-            chartArea2.AxisY.MajorGrid.Enabled = false;
-            chartArea2.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
-            chartArea2.AxisY2.MajorGrid.Enabled = false;
-            chartArea2.BackColor = System.Drawing.Color.Transparent;
-            chartArea2.Name = "DataArea";
-            this.StatisticsChart.ChartAreas.Add(chartArea2);
+            chartArea1.AxisX.MajorGrid.Enabled = false;
+            chartArea1.AxisY.MajorGrid.Enabled = false;
+            chartArea1.AxisY2.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
+            chartArea1.AxisY2.MajorGrid.Enabled = false;
+            chartArea1.BackColor = System.Drawing.Color.Transparent;
+            chartArea1.Name = "DataArea";
+            this.StatisticsChart.ChartAreas.Add(chartArea1);
             this.StatisticsChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.BackColor = System.Drawing.Color.Transparent;
-            legend2.Name = "ChartLegend";
-            this.StatisticsChart.Legends.Add(legend2);
+            legend1.BackColor = System.Drawing.Color.Transparent;
+            legend1.Name = "ChartLegend";
+            this.StatisticsChart.Legends.Add(legend1);
             this.StatisticsChart.Location = new System.Drawing.Point(0, 0);
             this.StatisticsChart.Margin = new System.Windows.Forms.Padding(5, 10, 5, 10);
             this.StatisticsChart.Name = "StatisticsChart";
             this.StatisticsChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.Pastel;
-            series4.ChartArea = "DataArea";
-            series4.Color = System.Drawing.Color.DarkGray;
-            series4.Legend = "ChartLegend";
-            series4.Name = "Speed";
-            series4.ToolTip = "#VALX\\nMax inbound speed\\n#VAL KiB/s";
-            series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
-            series5.ChartArea = "DataArea";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bubble;
-            series5.Color = System.Drawing.Color.Crimson;
-            series5.CustomProperties = "EmptyPointValue=Zero";
-            series5.Legend = "ChartLegend";
-            series5.Name = "Package Loss";
-            series5.ToolTip = "#VALX\\n#VAL%";
-            series5.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
-            series5.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
-            series5.YValuesPerPoint = 2;
-            series6.BorderWidth = 5;
-            series6.ChartArea = "DataArea";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series6.Color = System.Drawing.Color.DodgerBlue;
-            series6.Legend = "ChartLegend";
-            series6.MarkerSize = 10;
-            series6.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series6.Name = "Ping";
-            series6.ToolTip = "#VALX\\n#VAL ms";
-            series6.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
-            this.StatisticsChart.Series.Add(series4);
-            this.StatisticsChart.Series.Add(series5);
-            this.StatisticsChart.Series.Add(series6);
+            series1.ChartArea = "DataArea";
+            series1.Color = System.Drawing.Color.DarkGray;
+            series1.Legend = "ChartLegend";
+            series1.Name = "Speed";
+            series1.ToolTip = "#VALX\\nMax inbound speed\\n#VAL KiB/s";
+            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series2.ChartArea = "DataArea";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bubble;
+            series2.Color = System.Drawing.Color.Crimson;
+            series2.CustomProperties = "EmptyPointValue=Zero";
+            series2.Legend = "ChartLegend";
+            series2.Name = "Package Loss";
+            series2.ToolTip = "#VALX\\n#VAL%";
+            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            series2.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
+            series2.YValuesPerPoint = 2;
+            series3.BorderWidth = 5;
+            series3.ChartArea = "DataArea";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.Color = System.Drawing.Color.DodgerBlue;
+            series3.Legend = "ChartLegend";
+            series3.MarkerSize = 10;
+            series3.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            series3.Name = "Ping";
+            series3.ToolTip = "#VALX\\n#VAL ms";
+            series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Time;
+            this.StatisticsChart.Series.Add(series1);
+            this.StatisticsChart.Series.Add(series2);
+            this.StatisticsChart.Series.Add(series3);
             this.StatisticsChart.Size = new System.Drawing.Size(777, 429);
             this.StatisticsChart.TabIndex = 2;
             // 
@@ -146,6 +147,10 @@
             this.PingCheckBox.Text = "Ping Test";
             this.PingCheckBox.UseVisualStyleBackColor = true;
             this.PingCheckBox.CheckedChanged += new System.EventHandler(this.PingCheckBox_CheckedChanged);
+            // 
+            // bindingConfiguration
+            // 
+            this.bindingConfiguration.DataSource = typeof(Shadowsocks.Model.StatisticsStrategyConfiguration);
             // 
             // label2
             // 
@@ -172,7 +177,7 @@
             this.chartModeSelector.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.chartModeSelector.Controls.Add(this.allMode);
             this.chartModeSelector.Controls.Add(this.dayMode);
-            this.chartModeSelector.Location = new System.Drawing.Point(538, 110);
+            this.chartModeSelector.Location = new System.Drawing.Point(538, 98);
             this.chartModeSelector.Margin = new System.Windows.Forms.Padding(5, 10, 5, 10);
             this.chartModeSelector.Name = "chartModeSelector";
             this.chartModeSelector.Padding = new System.Windows.Forms.Padding(5, 10, 5, 10);
@@ -242,6 +247,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.TestButton);
             this.splitContainer1.Panel2.Controls.Add(this.CancelButton);
             this.splitContainer1.Panel2.Controls.Add(this.OKButton);
             this.splitContainer1.Panel2.Controls.Add(this.chartModeSelector);
@@ -457,10 +463,21 @@
             this.calculationContainer.Size = new System.Drawing.Size(388, 262);
             this.calculationContainer.TabIndex = 1;
             // 
+            // TestButton
+            // 
+            this.TestButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.TestButton.Location = new System.Drawing.Point(656, 337);
+            this.TestButton.Name = "TestButton";
+            this.TestButton.Size = new System.Drawing.Size(101, 41);
+            this.TestButton.TabIndex = 6;
+            this.TestButton.Text = "Test";
+            this.TestButton.UseVisualStyleBackColor = true;
+            this.TestButton.Click += new System.EventHandler(this.TestButton_Click);
+            // 
             // CancelButton
             // 
             this.CancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.CancelButton.Location = new System.Drawing.Point(656, 302);
+            this.CancelButton.Location = new System.Drawing.Point(656, 290);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(101, 41);
             this.CancelButton.TabIndex = 5;
@@ -471,7 +488,7 @@
             // OKButton
             // 
             this.OKButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.OKButton.Location = new System.Drawing.Point(549, 302);
+            this.OKButton.Location = new System.Drawing.Point(549, 290);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(101, 41);
             this.OKButton.TabIndex = 4;
@@ -483,17 +500,13 @@
             // 
             this.serverSelector.Dock = System.Windows.Forms.DockStyle.Fill;
             this.serverSelector.FormattingEnabled = true;
+            this.serverSelector.HorizontalScrollbar = true;
             this.serverSelector.ItemHeight = 27;
             this.serverSelector.Location = new System.Drawing.Point(0, 0);
             this.serverSelector.Name = "serverSelector";
             this.serverSelector.Size = new System.Drawing.Size(191, 744);
             this.serverSelector.TabIndex = 10;
-            this.serverSelector.HorizontalScrollbar = true;
             this.serverSelector.SelectedIndexChanged += new System.EventHandler(this.serverSelector_SelectionChangeCommitted);
-            // 
-            // bindingConfiguration
-            // 
-            this.bindingConfiguration.DataSource = typeof(Shadowsocks.Model.StatisticsStrategyConfiguration);
             // 
             // StatisticsStrategyConfigurationForm
             // 
@@ -508,6 +521,7 @@
             this.Name = "StatisticsStrategyConfigurationForm";
             this.Text = "StatisticsStrategyConfigurationForm";
             ((System.ComponentModel.ISupportInitialize)(this.StatisticsChart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingConfiguration)).EndInit();
             this.chartModeSelector.ResumeLayout(false);
             this.chartModeSelector.PerformLayout();
             this.splitContainer0.Panel1.ResumeLayout(false);
@@ -531,7 +545,6 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.bindingConfiguration)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -563,5 +576,6 @@
         private System.Windows.Forms.Button OKButton;
         private System.Windows.Forms.ListBox serverSelector;
         private System.Windows.Forms.ToolTip CalculatinTip;
+        private System.Windows.Forms.Button TestButton;
     }
 }
